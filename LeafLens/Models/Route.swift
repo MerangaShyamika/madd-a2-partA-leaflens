@@ -1,8 +1,9 @@
-//
-//  Route.swift
-//  LeafLens
-//
-//  Created by Meranga Shyamika on 2026-10-13.
-//
-
 import Foundation
+
+/// Every screen that can be pushed onto a NavigationStack in LeafLens.
+/// Using one typed enum keeps navigation safe and easy to extend.
+enum Route: Hashable {
+    case plantDetail(name: String)
+    case scanResult
+    case settings
+}
