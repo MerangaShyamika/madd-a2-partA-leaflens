@@ -7,13 +7,8 @@ struct RouteDestinationView: View {
 
     var body: some View {
         switch route {
-        case .plantDetail(let name):
-            ContentUnavailableView(
-                name,
-                systemImage: "leaf",
-                description: Text("Plant details and scan history will appear here.")
-            )
-            .navigationTitle(name)
+        case .plantDetail(let plant):
+            PlantDetailView(plant: plant)
 
         case .scanResult:
             ContentUnavailableView(
@@ -31,11 +26,5 @@ struct RouteDestinationView: View {
             )
             .navigationTitle("Settings")
         }
-    }
-}
-
-#Preview {
-    NavigationStack {
-        RouteDestinationView(route: .scanResult)
     }
 }
