@@ -4,6 +4,5 @@ import Foundation
 /// Using one typed enum keeps navigation safe and easy to extend.
 enum Route: Hashable {
     case plantDetail(Plant)
-    case scanResult
     case settings
 }

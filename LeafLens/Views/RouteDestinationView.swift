@@ -10,14 +10,6 @@ struct RouteDestinationView: View {
         case .plantDetail(let plant):
             PlantDetailView(plant: plant)
 
-        case .scanResult:
-            ContentUnavailableView(
-                "Scan Result",
-                systemImage: "checkmark.seal",
-                description: Text("The disease prediction will appear here.")
-            )
-            .navigationTitle("Result")
-
         case .settings:
             ContentUnavailableView(
                 "Settings",
