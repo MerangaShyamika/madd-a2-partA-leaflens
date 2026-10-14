@@ -7,6 +7,7 @@ struct ScanResultView: View {
 
     @Environment(\.horizontalSizeClass) private var horizontalSize
     @Environment(\.verticalSizeClass) private var verticalSize
+    @Environment(\.selectTab) private var selectTab
 
     @State private var showSaveSheet = false
     @State private var saved = false
@@ -70,7 +71,8 @@ struct ScanResultView: View {
                 )
                 .zIndex(1)
                 .frame(maxWidth: 420)
-                .accessibilityLabel("Scanned leaf photo. Pinch to zoom.")
+                .accessibilityLabel("Scanned leaf photo")
+                .accessibilityHint("Pinch to zoom")
         }
     }
 
@@ -86,6 +88,7 @@ struct ScanResultView: View {
                     Text(top.label)
                         .font(.title2.bold())
                         .multilineTextAlignment(.center)
+                        .accessibilityAddTraits(.isHeader)
                     Label(info.isHealthy ? "Looks healthy" : "Needs attention",
                           systemImage: info.isHealthy ? "checkmark.seal.fill" : "exclamationmark.triangle.fill")
                         .font(.headline)
@@ -108,6 +111,7 @@ struct ScanResultView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Other possibilities")
                                 .font(.headline)
+                                .accessibilityAddTraits(.isHeader)
                             ForEach(predictions.dropFirst()) { prediction in
                                 HStack {
                                     Text(prediction.label)
@@ -115,6 +119,7 @@ struct ScanResultView: View {
                                     Text(prediction.confidence, format: .percent.precision(.fractionLength(0)))
                                         .foregroundStyle(.secondary)
                                 }
+                                .accessibilityElement(children: .combine)
                             }
                         }
                         .leafCard()
@@ -134,6 +139,20 @@ struct ScanResultView: View {
                 .tint(.green)
                 .disabled(saved)
                 .accessibilityIdentifier("saveScanButton")
+
+                if !info.isHealthy {
+                    Button {
+                        selectTab(.nearby)
+                    } label: {
+                        Label("Find help nearby", systemImage: "map")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
+                    .tint(.green)
+                    .accessibilityHint("Shows agro shops and nurseries near you")
+                    .accessibilityIdentifier("findHelpButton")
+                }
             }
         }
     }
@@ -142,12 +161,14 @@ struct ScanResultView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("About")
                 .font(.headline)
+                .accessibilityAddTraits(.isHeader)
             Text(info.summary)
 
             if !info.symptoms.isEmpty {
                 Text("Signs")
                     .font(.headline)
                     .padding(.top, 4)
+                    .accessibilityAddTraits(.isHeader)
                 ForEach(info.symptoms, id: \.self) { symptom in
                     Label(symptom, systemImage: "eye")
                 }
@@ -156,6 +177,7 @@ struct ScanResultView: View {
             Text("What to do")
                 .font(.headline)
                 .padding(.top, 4)
+                .accessibilityAddTraits(.isHeader)
             ForEach(info.actions, id: \.self) { action in
                 Label(action, systemImage: "checkmark.circle")
             }
