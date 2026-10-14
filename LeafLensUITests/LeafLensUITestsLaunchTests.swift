@@ -1,12 +1,6 @@
-//
-//  LeafLensUITestsLaunchTests.swift
-//  LeafLensUITests
-//
-//  Created by Meranga Shyamika on 2026-10-13.
-//
-
 import XCTest
 
+/// Captures a screenshot of the launch screen for each appearance (light/dark).
 final class LeafLensUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
@@ -20,10 +14,8 @@ final class LeafLensUITestsLaunchTests: XCTestCase {
     @MainActor
     func testLaunch() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["-uiTesting", "-skipOnboarding"]
         app.launch()
-
-        // Insert steps here to perform after app launch but before taking a screenshot,
-        // such as logging into a test account or navigating somewhere in the app
 
         let attachment = XCTAttachment(screenshot: app.screenshot())
         attachment.name = "Launch Screen"

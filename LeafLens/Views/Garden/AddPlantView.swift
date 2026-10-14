@@ -21,6 +21,8 @@ struct AddPlantView: View {
             Form {
                 Section("Plant") {
                     TextField("Name (e.g. Tomato 1)", text: $name)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.words)
                     Picker("Type", selection: $species) {
                         ForEach(speciesOptions, id: \.self) { option in
                             Text(option)
