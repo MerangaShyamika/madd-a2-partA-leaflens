@@ -1,18 +1,25 @@
-//
-//  ScanningOverlay.swift
-//  LeafLens
-//
-//  Created by Meranga Shyamika on 2026-10-14.
-//
-
 import SwiftUI
 
+/// Animated green sweep line shown over the photo while the model runs.
 struct ScanningOverlay: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    @State private var sweep = false
 
-#Preview {
-    ScanningOverlay()
+    var body: some View {
+        GeometryReader { geo in
+            LinearGradient(
+                colors: [.clear, .green.opacity(0.6), .clear],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(height: 60)
+            .offset(y: sweep ? geo.size.height - 30 : -30)
+        }
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
+        .onAppear {
+            withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                sweep = true
+            }
+        }
+    }
 }
